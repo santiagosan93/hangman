@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Man from './man'
 import HiddenWord from './hidden_word'
+import SetWord from './set_word'
 import KeysContainer from './keys_container'
 import countUniqueLetters from '../helpers/c_u_letters'
 
@@ -14,7 +15,7 @@ class HangMan extends Component {
     this.state = {
       keys: this.fillKeys(),
       mistakes: 0,
-      hidden_word: 'apple',
+      hidden_word: '',
       alive: true
     }
     this.fillKeys = this.fillKeys.bind(this)
@@ -22,13 +23,22 @@ class HangMan extends Component {
     this.foundLetters = this.foundLetters.bind(this)
     this.gameWon = this.gameWon.bind(this)
     this.resetGame = this.resetGame.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+
+    this.input = React.createRef();
+  }
+
+  handleSubmit(word) {
+    this.setState({
+      hidden_word: word
+    })
   }
 
   resetGame() {
     this.setState({
       keys: this.fillKeys(),
       mistakes: 0,
-      hidden_word: 'apple',
+      hidden_word: '',
       alive: true
     })
   }
@@ -70,7 +80,7 @@ class HangMan extends Component {
   }
 
   render() {
-    if (this.gameWon()) {
+    if (this.gameWon() && this.state.hidden_word !== '') {
       return (
         <div>
           <h1>Yeeeei you woon!</h1>
@@ -80,6 +90,7 @@ class HangMan extends Component {
     }else if(this.state.alive) {
       return (
         <div className='hang-box'>
+          {this.state.hidden_word === '' && <SetWord handleSubmit={this.handleSubmit}/>}
           <Man mistakes={this.state.mistakes} maxWrongGueses={this.props.maxWrongGueses}/>
           <HiddenWord word={this.state.hidden_word} foundLetters={this.foundLetters()}/>
           <KeysContainer keys={this.state.keys} handleClick={this.handleClick}/>
