@@ -100,6 +100,7 @@ class HangMan extends Component {
       return(
         <div>
           <h1>You LOOOOOOOOSEER!!!!!</h1>
+          <h2>The word was {this.state.hidden_word}</h2>
           <button onClick={this.resetGame}>Play again!</button>
         </div>
       )
