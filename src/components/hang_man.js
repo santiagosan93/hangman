@@ -54,6 +54,7 @@ class HangMan extends Component {
     for (var i = 65; i < 91; i++) {
       letters.push({played: false, letter: String.fromCharCode(i), found: false})
     }
+    letters.push({played: true, letter: ' ', found: true})
     return letters
   }
 
