@@ -64,7 +64,10 @@ class HangMan extends Component {
   }
 
   handleClick(letter) {
+
+    // Makes copy of state
     const keys = [...this.state.keys]
+
     const index = keys.findIndex(key => key.letter === letter)
     const key = keys[index]
     key.found = this.state.hidden_word.includes(letter.toLowerCase()) ? true : false
@@ -82,8 +85,19 @@ class HangMan extends Component {
   render() {
     return (
       <div>
+        {/* If the word hasn't been set */}
+        {this.state.hidden_word === null &&
+          <div>
+            <h1>Hang Man!</h1>
+            <h2>Set a word to start playing!</h2>
+            <SetWord handleSubmit={this.handleSubmit}/>
+          </div>
+        }
+
+        {/* If the game has been won */}
         {this.gameWon() && <Win resetGame={this.resetGame}/>}
 
+        {/* If the game has been won and the player is still alive */}
         {(this.state.alive && !(this.gameWon())) &&
           <Game
             hiddenWord={this.state.hidden_word}
@@ -96,13 +110,8 @@ class HangMan extends Component {
             hidden_word={this.state.hidden_word}
           />
         }
-        {this.state.hidden_word === null &&
-          <div>
-            <h1>Hang Man!</h1>
-            <h2>Set a word to start playing!</h2>
-            <SetWord handleSubmit={this.handleSubmit}/>
-          </div>
-        }
+
+        {/* If the game is dead, and a word has been set */}
         {(this.state.alive === false && this.state.hidden_word !== null) &&
           <Loose resetGame={this.resetGame} hiddenWord={this.state.hidden_word}/>
         }
