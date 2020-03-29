@@ -46,7 +46,7 @@ class HangMan extends Component {
 
   gameWon() {
     const foundLetters = this.state.keys.filter(key => key.found === true)
-    return foundLetters.length === countUniqueLetters(this.state.hidden_word)
+    return foundLetters.length - 1 === countUniqueLetters(this.state.hidden_word)
   }
 
   fillKeys() {
