@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Man from './man'
-import HiddenWord from './hidden_word'
+import Win from './win'
+import Game from './game'
+import Loose from './loose'
 import SetWord from './set_word'
-import KeysContainer from './keys_container'
 import countUniqueLetters from '../helpers/c_u_letters'
 
 class HangMan extends Component {
@@ -15,8 +15,8 @@ class HangMan extends Component {
     this.state = {
       keys: this.fillKeys(),
       mistakes: 0,
-      hidden_word: '',
-      alive: true
+      hidden_word: null,
+      alive: false
     }
     this.fillKeys = this.fillKeys.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -30,7 +30,8 @@ class HangMan extends Component {
 
   handleSubmit(word) {
     this.setState({
-      hidden_word: word
+      hidden_word: word.toLowerCase(),
+      alive: true
     })
   }
 
@@ -38,14 +39,13 @@ class HangMan extends Component {
     this.setState({
       keys: this.fillKeys(),
       mistakes: 0,
-      hidden_word: '',
-      alive: true
+      hidden_word: null,
+      alive: false
     })
   }
 
   gameWon() {
     const foundLetters = this.state.keys.filter(key => key.found === true)
-    console.log(foundLetters, this.state.hidden_word)
     return foundLetters.length === countUniqueLetters(this.state.hidden_word)
   }
 
@@ -63,7 +63,6 @@ class HangMan extends Component {
   }
 
   handleClick(letter) {
-    console.log('hey')
     const keys = [...this.state.keys]
     const index = keys.findIndex(key => key.letter === letter)
     const key = keys[index]
@@ -80,31 +79,34 @@ class HangMan extends Component {
   }
 
   render() {
-    if (this.gameWon() && this.state.hidden_word !== '') {
-      return (
-        <div>
-          <h1>Yeeeei you woon!</h1>
-          <button onClick={this.resetGame}>Play again!</button>
-        </div>
-      )
-    }else if(this.state.alive) {
-      return (
-        <div className='hang-box'>
-          {this.state.hidden_word === '' && <SetWord handleSubmit={this.handleSubmit}/>}
-          <Man mistakes={this.state.mistakes} maxWrongGueses={this.props.maxWrongGueses}/>
-          <HiddenWord word={this.state.hidden_word} foundLetters={this.foundLetters()}/>
-          <KeysContainer keys={this.state.keys} handleClick={this.handleClick}/>
-        </div>
-      )
-    }else {
-      return(
-        <div>
-          <h1>You LOOOOOOOOSEER!!!!!</h1>
-          <h2>The word was {this.state.hidden_word}</h2>
-          <button onClick={this.resetGame}>Play again!</button>
-        </div>
-      )
-    }
+    return (
+      <div>
+        {this.gameWon() && <Win resetGame={this.resetGame}/>}
+
+        {(this.state.alive && !(this.gameWon())) &&
+          <Game
+            hiddenWord={this.state.hidden_word}
+            mistakes={this.state.mistakes}
+            keys={this.state.keys}
+            handleSubmit={this.handleSubmit}
+            maxWrongGueses={this.props.maxWrongGueses}
+            foundLetters={this.foundLetters()}
+            handleClick={this.handleClick}
+            hidden_word={this.state.hidden_word}
+          />
+        }
+        {this.state.hidden_word === null &&
+          <div>
+            <h1>Hang Man!</h1>
+            <h2>Set a word to start playing!</h2>
+            <SetWord handleSubmit={this.handleSubmit}/>
+          </div>
+        }
+        {(this.state.alive === false && this.state.hidden_word !== null) &&
+          <Loose resetGame={this.resetGame} hiddenWord={this.state.hidden_word}/>
+        }
+      </div>
+    )
   }
 }
 
