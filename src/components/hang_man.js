@@ -32,9 +32,11 @@ class HangMan extends Component {
   }
 
   handleSubmit(userWord) {
-    let word = userWord.trim()
-    word = removeNumbers(word)
+    let word = removeNumbers(userWord)
     word = removeDoubleSpacaes(word)
+    console.log(word)
+    word = word.trim()
+    console.log(word)
     this.setState({
       hidden_word: word.toLowerCase(),
       alive: true
