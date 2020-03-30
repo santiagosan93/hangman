@@ -33,10 +33,9 @@ class HangMan extends Component {
 
   handleSubmit(userWord) {
     let word = removeNumbers(userWord)
+    console.log(word)
     word = removeDoubleSpacaes(word)
-    console.log(word)
     word = word.trim()
-    console.log(word)
     this.setState({
       hidden_word: word.toLowerCase(),
       alive: true
@@ -104,7 +103,7 @@ class HangMan extends Component {
         }
 
         {/* If the game has been won */}
-        {this.gameWon() && <Win resetGame={this.resetGame}/>}
+        {this.gameWon() && <Win resetGame={this.resetGame} hiddenWord={this.state.hidden_word}/>}
 
         {/* If the game hasn't been won and the player is still alive */}
         {(this.state.alive && !(this.gameWon())) &&
