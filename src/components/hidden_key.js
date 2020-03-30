@@ -6,7 +6,7 @@ const HiddenKey = (props) => {
   const letterFound =  !(isEmpty(filter))
   return (
     <div className='hidden-key'>
-      { letterFound ? props.letter : '_'}
+      { letterFound || props.letter === ' ' ? props.letter : '_'}
     </div>
   )
 }
