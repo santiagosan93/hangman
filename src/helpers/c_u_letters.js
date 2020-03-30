@@ -6,7 +6,6 @@ const countUniqueLetters = (string) => {
   const uniqueLetters = stringg.filter((letter, index) => {
     return stringg.indexOf(letter) === index
   })
-  console.log(uniqueLetters)
   return uniqueLetters.length
 }
 
