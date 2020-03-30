@@ -33,7 +33,6 @@ class HangMan extends Component {
 
   handleSubmit(userWord) {
     let word = removeNumbers(userWord)
-    console.log(word)
     word = removeDoubleSpacaes(word)
     word = word.trim()
     this.setState({
