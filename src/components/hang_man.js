@@ -3,7 +3,10 @@ import Win from './win'
 import Game from './game'
 import Loose from './loose'
 import SetWord from './set_word'
+
 import countUniqueLetters from '../helpers/c_u_letters'
+import removeDoubleSpacaes from '../helpers/r_d_spaces'
+import removeNumbers from '../helpers/r_numbers'
 
 class HangMan extends Component {
   static defaultProps = {
@@ -28,7 +31,10 @@ class HangMan extends Component {
     this.input = React.createRef();
   }
 
-  handleSubmit(word) {
+  handleSubmit(userWord) {
+    let word = userWord.trim()
+    word = removeNumbers(word)
+    word = removeDoubleSpacaes(word)
     this.setState({
       hidden_word: word.toLowerCase(),
       alive: true
@@ -55,6 +61,7 @@ class HangMan extends Component {
       letters.push({played: false, letter: String.fromCharCode(i), found: false})
     }
     letters.push({played: true, letter: ' '})
+    letters.push({played: false, letter: '?'})
     return letters
   }
 
