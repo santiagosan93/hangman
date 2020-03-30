@@ -97,17 +97,18 @@ class HangMan extends Component {
         {/* If the game has been won */}
         {this.gameWon() && <Win resetGame={this.resetGame}/>}
 
-        {/* If the game has been won and the player is still alive */}
+        {/* If the game hasn't been won and the player is still alive */}
         {(this.state.alive && !(this.gameWon())) &&
           <Game
             hiddenWord={this.state.hidden_word}
             mistakes={this.state.mistakes}
             keys={this.state.keys}
-            handleSubmit={this.handleSubmit}
             maxWrongGueses={this.props.maxWrongGueses}
             foundLetters={this.foundLetters()}
-            handleClick={this.handleClick}
             hidden_word={this.state.hidden_word}
+
+            handleClick={this.handleClick}
+            handleSubmit={this.handleSubmit}
           />
         }
 
