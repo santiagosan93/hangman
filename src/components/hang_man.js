@@ -70,7 +70,7 @@ class HangMan extends Component {
 
     const index = keys.findIndex(key => key.letter === letter)
     const key = keys[index]
-    key.found = this.state.hidden_word.includes(letter.toLowerCase()) ? true : false
+    key.found = this.state.hidden_word.includes(letter.toLowerCase())
     key.played = true
     keys[index] = key
     this.setState((prevState) => {
