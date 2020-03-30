@@ -108,7 +108,6 @@ class HangMan extends Component {
             hidden_word={this.state.hidden_word}
 
             handleClick={this.handleClick}
-            handleSubmit={this.handleSubmit}
           />
         }
 
