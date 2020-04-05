@@ -83,17 +83,24 @@ class HangMan extends Component {
     this.setState((prevState) => {
       return {
         keys: keys,
-        mistakes: prevState.hidden_word.includes(letter.toLowerCase()) ? prevState.mistakes : prevState.mistakes + 1,
+        mistakes: prevState.hidden_word.includes(letter.toLowerCase())
+          ? prevState.mistakes
+          : prevState.mistakes + 1
+        ,
         alive: this.state.mistakes < this.props.maxWrongGueses - 1
       }
     })
   }
 
   render() {
+    const wordSet = this.state.hidden_word !== null
+    const wordNotSet = !(wordSet)
+    const gameWon = this.gameWon()
+    const gameNotWon = !(gameWon)
     return (
       <div>
         {/* If the word hasn't been set */}
-        {this.state.hidden_word === null &&
+        {wordNotSet &&
           <div>
             <h1>Hang Man!</h1>
             <h2>Set a word to start playing!</h2>
@@ -102,10 +109,12 @@ class HangMan extends Component {
         }
 
         {/* If the game has been won */}
-        {this.gameWon() && <Win resetGame={this.resetGame} hiddenWord={this.state.hidden_word}/>}
+        {gameWon &&
+          <Win resetGame={this.resetGame} hiddenWord={this.state.hidden_word}/>
+        }
 
         {/* If the game hasn't been won and the player is still alive */}
-        {(this.state.alive && !(this.gameWon())) &&
+        {(this.state.alive && gameNotWon) &&
           <Game
             hiddenWord={this.state.hidden_word}
             mistakes={this.state.mistakes}
@@ -119,7 +128,7 @@ class HangMan extends Component {
         }
 
         {/* If the game is dead, and a word has been set */}
-        {(this.state.alive === false && this.state.hidden_word !== null) &&
+        {(!(this.state.alive) && wordSet) &&
           <Loose resetGame={this.resetGame} hiddenWord={this.state.hidden_word}/>
         }
       </div>
